@@ -38,7 +38,7 @@ class Video(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))  # Дата обновления записи в базе
 
     # Связь видео со снепшотами One to Many
-    snapshots: Mapped[List[Snapshot]] = relationship(back_populates='video', cascade='all, delete-orphan')
+    snapshots: Mapped[List["Snapshot"]] = relationship(back_populates='video', cascade='all, delete-orphan')
 
     # Хеш-индекс, чтобы было быстрее искать по id
     __table_args__ = (
@@ -63,7 +63,7 @@ class Snapshot(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))  # Дата изменения записи в базе
 
     # Связь с видео, к которым принадлежат снепшоты Many to One
-    video: Mapped[Video] = relationship(back_populates='snapshots')
+    video: Mapped["Video"] = relationship(back_populates='snapshots')
 
     # Хеш-индекс для быстрого поиска по id
     __table_args__ = (
