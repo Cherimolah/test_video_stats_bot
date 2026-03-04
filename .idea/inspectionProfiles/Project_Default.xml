@@ -1,0 +1,29 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="pi" />
+          <option value="psycopg2-binary" />
+          <option value="aiohttp" />
+          <option value="ansicon" />
+          <option value="async-timeout" />
+          <option value="attrs" />
+          <option value="blessed" />
+          <option value="chardet" />
+          <option value="colorama" />
+          <option value="idna" />
+          <option value="inquirer" />
+          <option value="jinxed" />
+          <option value="multidict" />
+          <option value="python-editor" />
+          <option value="readchar" />
+          <option value="six" />
+          <option value="wcwidth" />
+          <option value="yarl" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
