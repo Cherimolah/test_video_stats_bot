@@ -10,6 +10,11 @@ from db_engine import run_raw_sql
 
 @dp.message(CommandStart())
 async def start(message: Message):
+    """
+    Хендлер для обработки привествтенного сообщения
+    :param message: объект aiogram
+    :return:
+    """
     await message.answer('Привет! 👋 Я бот со встроенным искусственным интеллектом, '
                          'который помогает получать статистику видео разных креаторов.\n\n'
                          '*✨ Что я могу:*\n'
@@ -32,15 +37,27 @@ async def start(message: Message):
 
 @dp.message(F.text)
 async def request_user(message: Message):
+    """
+    Хендлер для обработки запроса пользователя к базе данных на естественном языке
+    :param message: объект aiogram
+    :return:
+    """
+    # Форматируем в заранее подготвленный промпт к LLM
     text = prompt.format(message.text)
+    # Получаем в ответ SQL од, форматированный в блок кода разметкой Markdown
     response = await request_llm(text)
+    # Вытаскиваем из разметки сам текст кода
     sql = extract_sql(response)
+    # Проверяем, что SQL запрос действительно существует
     if not sql:
         await message.answer('К сожалению, нам не удалось сгенерировать SQL запрос для получения данных')
         return
+    # Дополнительная проверка на то, что SQL запрос безопасный и его использовать
+    # Метод не даёт 100% гарантий, т.к. всегда есть вероятность галлюцинации LLM, но большинство угроз он предотвращает
     safely = await check_sql(sql)
     if not safely:
         await message.answer('К сожалению, нам не удалось сгенерировать SQL запрос для получения данных')
         return
+    # Если все ок, выполняем SQL запрос и возвращаем ответ пользователю
     response = await run_raw_sql(sql)
     await message.answer(f'{response}')
